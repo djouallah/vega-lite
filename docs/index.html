@@ -1,1 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    .vega-actions a {
+        margin-right: 12px;
+        color: #757575;
+        font-weight: normal;
+        font-size: 13px;
+    }
+    .error {
+        color: red;
+    }
+  </style>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm//vega@4"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm//vega-lite@2.6.0"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm//vega-embed@3"></script>
+</head>
+<body>
+  <div id="vis"></div>
+  <script>
+      var spec = {"config": {"view": {"width": 400, "height": 300}}, "hconcat": [{"data": {"url": "https://raw.githubusercontent.com/djouallah/vega-lite/master/data/earned.csv", "format": {"parse": {"date": "date:\"%e/%m/%Y\""}}}, "mark": "bar", "encoding": {"color": {"condition": {"value": "steelblue", "selection": "selector003"}, "value": "grey"}, "x": {"type": "quantitative", "aggregate": "sum", "field": "earned"}, "y": {"type": "nominal", "field": "category"}}, "height": 200, "selection": {"selector003": {"type": "multi", "encodings": ["y"]}}, "width": 550}, {"layer": [{"layer": [{"data": {"url": "https://raw.githubusercontent.com/djouallah/vega-lite/master/data/earned.csv", "format": {"parse": {"date": "date:\"%e/%m/%Y\""}}}, "mark": {"type": "bar", "color": "black"}, "encoding": {"x": {"type": "ordinal", "axis": {"format": "%d %b %y"}, "field": "date", "timeUnit": "yearmonthdate"}, "y": {"type": "quantitative", "field": "period"}}, "transform": [{"filter": {"selection": "selector003"}}, {"aggregate": [{"op": "sum", "field": "earned_cumulative", "as": "sum_installed_cumulative"}, {"op": "sum", "field": "planned_cumulative", "as": "sum_planned_cumulative"}, {"op": "sum", "field": "budget", "as": "sum_budget"}, {"op": "sum", "field": "earned", "as": "sum_Installed_qty"}], "groupby": ["date"]}, {"calculate": "datum.sum_installed_cumulative / datum.sum_budget", "as": "earned_cumulative"}, {"calculate": "datum.sum_planned_cumulative / datum.sum_budget", "as": "planned_cumulative"}, {"calculate": "datum.sum_Installed_qty/ datum.sum_budget*100", "as": "period"}]}, {"data": {"url": "https://raw.githubusercontent.com/djouallah/vega-lite/master/data/earned.csv", "format": {"parse": {"date": "date:\"%e/%m/%Y\""}}}, "mark": {"type": "text", "align": "center", "baseline": "middle", "dx": 3}, "encoding": {"text": {"type": "quantitative", "field": "period"}, "x": {"type": "ordinal", "axis": {"format": "%d %b %y"}, "field": "date", "timeUnit": "yearmonthdate"}, "y": {"type": "quantitative", "field": "period"}}, "transform": [{"filter": {"selection": "selector003"}}, {"aggregate": [{"op": "sum", "field": "earned_cumulative", "as": "sum_installed_cumulative"}, {"op": "sum", "field": "planned_cumulative", "as": "sum_planned_cumulative"}, {"op": "sum", "field": "budget", "as": "sum_budget"}, {"op": "sum", "field": "earned", "as": "sum_Installed_qty"}], "groupby": ["date"]}, {"calculate": "datum.sum_installed_cumulative / datum.sum_budget", "as": "earned_cumulative"}, {"calculate": "datum.sum_planned_cumulative / datum.sum_budget", "as": "planned_cumulative"}, {"calculate": "datum.sum_Installed_qty/ datum.sum_budget*100", "as": "period"}]}]}, {"layer": [{"data": {"url": "https://raw.githubusercontent.com/djouallah/vega-lite/master/data/earned.csv", "format": {"parse": {"date": "date:\"%e/%m/%Y\""}}}, "mark": {"type": "line", "color": "red"}, "encoding": {"x": {"type": "ordinal", "axis": {"format": "%d %b %y"}, "field": "date", "timeUnit": "yearmonthdate"}, "y": {"type": "quantitative", "field": "earned_cumulative"}}, "transform": [{"filter": {"selection": "selector003"}}, {"aggregate": [{"op": "sum", "field": "earned_cumulative", "as": "sum_installed_cumulative"}, {"op": "sum", "field": "planned_cumulative", "as": "sum_planned_cumulative"}, {"op": "sum", "field": "budget", "as": "sum_budget"}, {"op": "sum", "field": "earned", "as": "sum_Installed_qty"}], "groupby": ["date"]}, {"calculate": "datum.sum_installed_cumulative / datum.sum_budget", "as": "earned_cumulative"}, {"calculate": "datum.sum_planned_cumulative / datum.sum_budget", "as": "planned_cumulative"}, {"calculate": "datum.sum_Installed_qty/ datum.sum_budget*100", "as": "period"}]}, {"data": {"url": "https://raw.githubusercontent.com/djouallah/vega-lite/master/data/earned.csv", "format": {"parse": {"date": "date:\"%e/%m/%Y\""}}}, "mark": {"type": "line", "color": "green"}, "encoding": {"x": {"type": "ordinal", "axis": {"format": "%d %b %y"}, "field": "date", "timeUnit": "yearmonthdate"}, "y": {"type": "quantitative", "field": "planned_cumulative"}}, "transform": [{"filter": {"selection": "selector003"}}, {"aggregate": [{"op": "sum", "field": "earned_cumulative", "as": "sum_installed_cumulative"}, {"op": "sum", "field": "planned_cumulative", "as": "sum_planned_cumulative"}, {"op": "sum", "field": "budget", "as": "sum_budget"}, {"op": "sum", "field": "earned", "as": "sum_Installed_qty"}], "groupby": ["date"]}, {"calculate": "datum.sum_installed_cumulative / datum.sum_budget", "as": "earned_cumulative"}, {"calculate": "datum.sum_planned_cumulative / datum.sum_budget", "as": "planned_cumulative"}, {"calculate": "datum.sum_Installed_qty/ datum.sum_budget*100", "as": "period"}]}]}], "resolve": {"scale": {"y": "independent"}}}], "resolve": {"legend": {"color": "independent", "size": "independent"}}, "$schema": "https://vega.github.io/schema/vega-lite/v2.6.0.json"};
+      var embedOpt = {"mode": "vega-lite"};
 
+      function showError(el, error){
+          el.innerHTML = ('<div class="error" style="color:red;">'
+                          + '<p>JavaScript Error: ' + error.message + '</p>'
+                          + "<p>This usually means there's a typo in your chart specification. "
+                          + "See the javascript console for the full traceback.</p>"
+                          + '</div>');
+          throw error;
+      }
+      const el = document.getElementById('vis');
+      vegaEmbed("#vis", spec, embedOpt)
+        .catch(error => showError(el, error));
+
+  </script>
+</body>
+</html>
