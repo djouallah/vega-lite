@@ -1,4 +1,4 @@
-date,category,category_2,earned,earned_cumulative,budget,planned_cumulative,type,last_budget,baseline_budget
+date,category,category2,earned,earned_cumulative,budget,planned_cumulative,type,last_budget,baseline_budget
 1/01/2010,piling Contractor,a,9,9,2000,153.8461538,1,,2000
 1/01/2010,Earthworks Contractor,a,48,48,3000,230.7692308,1,,3000
 1/01/2010,Civil Contractor,a,79,79,2000,153.8461538,1,,2000
